@@ -44,7 +44,7 @@ Creantbits, Octubre 2014
 ## Características OpsWorks
 
 * Altamente customizable. Al final, todo acaba en una ejecución Chef.
-* Arquitectura repetible. Orientada a fallar.
+* Arquitectura repetible. Orientada a fallos.
 * Sólo pagas por recursos AWS usados.
 * Arquitectura auto documentada: Modelado Layers, recetas mantenidas en Git.
 * Distintos entornos idénticos y repetibles: prod, pre, test
