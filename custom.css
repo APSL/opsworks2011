@@ -2,3 +2,35 @@
 
 pre { font-size:17px}
 section ul li {font-size:27px; color:#555}
+header h1 {
+  color: #3e3e3e !important;
+  border-bottom: 4px solid #e9ae12;
+}
+header h2 {
+  color: #3e3e3e !important;
+  border-bottom: 4px solid #e9ae12;
+}
+
+.apsl {
+  position:absolute;
+  bottom:0px;
+  left:0;
+  font-size: 20px;
+  width:100%;
+  color: #555;
+}
+
+.imageslide .apsl {
+  display:none;
+
+}
+
+img.logoapsl {
+  width: 110px;
+  float:right;
+  margin-right:30px;
+}
+img.logogoldcar{
+  width: 110px;
+  float:right;
+}
