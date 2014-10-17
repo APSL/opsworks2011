@@ -4,8 +4,6 @@
 
 Creantbits, Octubre 2014
 
-.notes: Pressing 2 will display these fascinating notes
-    
 
 .fx: titleslide
 
@@ -414,6 +412,9 @@ templates/default/wp-config.php.erb
 * Desarrollamos CLI propio: *gcops* (python boto)
 * Recetas para newrelic, monit, cron, haproxy, configuraciones
 
+---
+
+# DEMO
 
 ---
 
@@ -422,6 +423,9 @@ templates/default/wp-config.php.erb
 ---
 
 # Gracias
+
+* http://creantbits.com/opsworks2011
+* https://github.com/APSL/opsworks2011
 
 
 
