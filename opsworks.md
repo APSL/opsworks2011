@@ -375,6 +375,31 @@ templates/default/wp-config.php.erb
             "execute_recipes"
             ],
         ...
+---
+
+# awscli
+
+    !bash
+    pip install awscli
+
+    export AWS_ACCESS_KEY_ID=[Our AWS Access Key]
+    export AWS_SECRET_ACCESS_KEY=[Our Secret Access Key]
+
+    aws --region='us-east-1' opsworks create-deployment --stack-id='[Our Stack ID]' \
+        --app-id='[Our Application ID]' --command='{"Name": "deploy"}'
+
+---
+
+# python boto
+
+    !python
+
+    import boto
+
+    ops = boto.connect_opsworks(KEY, SECRET) 
+    ops.create_deployment(stack_id=STACK_ID, app_id=APP_ID,           
+            command={"Name": "deploy"})
+    
 
 ---
 
@@ -386,7 +411,7 @@ templates/default/wp-config.php.erb
   probar. Nueva receta: 1h.
 * Los deploy hooks son útiles.
 * Modificamos receta *deploy* para no reiniciar apache en despliegue.
-* Desarrollamos CLI propio: *gcops*.
+* Desarrollamos CLI propio: *gcops* (python boto)
 * Recetas para newrelic, monit, cron, haproxy, configuraciones
 
 
