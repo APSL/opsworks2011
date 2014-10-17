@@ -1,1 +1,4 @@
 /* We can customize the theme CSS here */
+
+pre { font-size:17px}
+section ul li {font-size:27px; color:#555}
