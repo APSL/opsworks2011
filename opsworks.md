@@ -344,11 +344,6 @@ templates/default/wp-config.php.erb
 
     !php
 
-    /** MySQL database password */
-    define('DB_PASSWORD', '<%= @password %>');
-
-    /** MySQL hostname */
-    define('DB_HOST', '<%= @host %>');
     <% if node['wordpress']['wp_config']['enable_W3TC']==true -%>
         /**  Enable W3 Total Cache */
         define('WP_CACHE', true); // Added by W3 Total Cache
@@ -388,9 +383,12 @@ templates/default/wp-config.php.erb
 * Curva aprendizaje alta. Chef a bajo nivel.
 * Cambios importantes OpsWorks: RDS, Cheff 11.10, Berkshelf.
 * Ciclo de desarrollo de recetas lento: desarrollar, actualizar cookbooks, 
-  probar. 1h.
-* Deploy hooks son útiles.
+  probar. Nueva receta: 1h.
+* Los deploy hooks son útiles.
+* Modificamos receta *deploy* para no reiniciar apache en despliegue.
 * Desarrollamos CLI propio: *gcops*.
+* Recetas para newrelic, monit, cron, haproxy, configuraciones
+
 
 ---
 
