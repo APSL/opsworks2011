@@ -201,3 +201,5 @@ Referencias:
 - opsworks docs
 - chef docs. opscode.
 
+TEMA DJANGOCON:
+https://github.com/n1k0/Presentations.git

@@ -15,7 +15,6 @@ Creantbits, Octubre 2014
 
 .fx: imageslide 
 
-
 ---
 
 # AWS OpsWorks
@@ -29,6 +28,7 @@ Creantbits, Octubre 2014
 * *DevOps Application Management Service*
 * Agrupación y orquestación de servicios AWS
 * Orientado al ciclo de vida de la **Aplicación**
+* Inicialmente, un *experimento* separado dentro de AWS
 
 ---
 
@@ -63,7 +63,6 @@ Creantbits, Octubre 2014
 * Consola web, aws-cli, API (python boto)
 * Permisos
 
-
 ---
 
 # Conceptos OpsWorks fundamentales
@@ -72,6 +71,8 @@ Creantbits, Octubre 2014
 * Layers
 * Aplicaciones
 * Instancias
+
+* Lifecycle Events
 
 Nomenclatura propia OpsWorks.
 
@@ -105,6 +106,19 @@ podremos usar varios stacks para entornos de producción, test o pre-produción.
 
 
 .fx: align-right
+
+---
+
+# Built-in Layers
+
+* Haproxy
+* Rails App Server
+* PHP
+* Node.js
+* Java
+* Mysql
+* Memcached
+* Ganglia
 
 ---
 
@@ -165,18 +179,9 @@ podremos usar varios stacks para entornos de producción, test o pre-produción.
 * Versiones soportadas: 11.4 o 11.10
 * Lanzado por los eventos del ciclo de vida
 * Cada evento viene con un estado JSON
-
----
-
-# Built-in Layers
-
-* Haproxy
-* Rails
-* PHP
-* Node.js
-* Java
-* Mysql
-* Memcached
+* https://github.com/opscode-cookbooks
+* https://community.opscode.com/
+* https://docs.getchef.com/
 
 ---
 
@@ -189,13 +194,27 @@ de vida de la aplicación.
 
 ---
 
+# Eventos del ciclo de vida
+
+<img src="img/lifecycle.png" />
+
+---
+
 <img src="img/php-recipes.png" />
 
 .fx: imageslide
 
 ---
 
-# DEMO
+<img src="img/web-stack.png" />
+
+.fx: imageslide
+
+---
+
+<img src="img/web-instances.png" />
+
+.fx: imageslide
 
 ---
 
@@ -209,6 +228,18 @@ de vida de la aplicación.
 * Proveer receta customizada en Layer Custom.
 
 (Ordenados de más simples a más control)
+
+---
+
+# Atributos y Custom Json
+
+<img src="img/override-attributes.png" />
+
+---
+
+<img src="img/web-stack-edit.png" />
+
+.fx: imageslide
 
 ---
 
@@ -230,6 +261,93 @@ de vida de la aplicación.
         execute "chmod -R g+rw #{app_root}/cache" do
         end
     end
+
+---
+
+# Estructura receta Chef
+
+Cookbook: "wordpress::configure"
+
+
+    !bash
+    $ find wordpress/
+
+        recipes/configure.rb
+        attributes/default.rb 
+        templates/default/wp-config.php.erb
+
+---
+
+#  Estructura receta Chef
+
+    !bash
+    $ cat attributes/default.rb
+
+    default['wordpress']['wp_config']['enable_W3TC'] = false
+    default['wordpress']['wp_config']['force_secure_logins'] = false
+
+Custom json: 
+
+    !json
+    {
+        "wordpress": {
+            "wp_config": {
+                "enable_W3TC": true,
+                "force_secure_logins": false
+            }
+        }
+    }
+
+---
+
+# Estructura receta Chef
+
+recipes/configure.rb
+
+    !ruby
+    node[:deploy].each do |app_name, deploy|
+
+        Chef::Log.info("Configuring WP app #{app_name}...")
+
+        if defined?(deploy[:application_type]) 
+            && deploy[:application_type] != 'php'                                        
+            Chef::Log.debug("Skipping WP application #{app_name}")
+            next                                                                       
+        end
+        
+        template "#{deploy[:deploy_to]}/current/wp-config.php" do
+            source "wp-config.php.erb"
+            mode 0660
+            group deploy[:group]
+            owner "www-data"
+        end
+
+    end
+
+---
+
+# Estructura receta Chef
+
+templates/default/wp-config.php.erb
+
+    !php
+    <% if node['wordpress']['wp_config']['enable_W3TC']==true -%>
+        /**  Enable W3 Total Cache */
+        define('WP_CACHE', true); // Added by W3 Total Cache
+        define('W3TC_EDGE_MODE', true);
+        define('COOKIE_DOMAIN', '');
+    <% end -%>
+
+---
+
+# Experiencia Goldcar
+
+* Curva aprendizaje alta. Chef a bajo nivel.
+* Cambios importantes OpsWorks: RDS, Cheff 11.10, Berkshelf.
+* Ciclo de desarrollo de recetas lento: desarrollar, actualizar cookbooks, 
+  probar. 1h.
+* Deploy hooks son útiles.
+* Desarrollamos CLI propio: *gcops*.
 
 ---
 
