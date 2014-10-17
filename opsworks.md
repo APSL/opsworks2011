@@ -5,8 +5,21 @@
 Creantbits, Octubre 2014
 
 .notes: Pressing 2 will display these fascinating notes
+    
 
 .fx: titleslide
+
+---
+
+# Agenda
+
+* ¿Qué es OpsWorks?
+* ¿Por qué OpsWorks?
+* Conceptos OpsWorks
+* Arquitectura OpsWorks
+* Customización: Recetas Chef
+* Demo
+* Experiencia Goldcar
 
 ---
 
@@ -71,7 +84,6 @@ Creantbits, Octubre 2014
 * Layers
 * Aplicaciones
 * Instancias
-
 * Lifecycle Events
 
 Nomenclatura propia OpsWorks.
@@ -331,12 +343,43 @@ recipes/configure.rb
 templates/default/wp-config.php.erb
 
     !php
+
+    /** MySQL database password */
+    define('DB_PASSWORD', '<%= @password %>');
+
+    /** MySQL hostname */
+    define('DB_HOST', '<%= @host %>');
     <% if node['wordpress']['wp_config']['enable_W3TC']==true -%>
         /**  Enable W3 Total Cache */
         define('WP_CACHE', true); // Added by W3 Total Cache
         define('W3TC_EDGE_MODE', true);
         define('COOKIE_DOMAIN', '');
     <% end -%>
+
+---
+
+## Imprescindible para desarrollo recetas:
+
+    !bash
+    [root@gaia ~]# opsworks-agent-cli get_json
+        {
+        "ssh_users": {
+        },
+        "opsworks": {
+            "agent_version": "328",
+            "activity": "configure",
+            "valid_client_activities": [
+            "reboot",
+            "stop",
+            "deploy",
+            "setup",
+            "configure",
+            "update_dependencies",
+            "install_dependencies",
+            "update_custom_cookbooks",
+            "execute_recipes"
+            ],
+        ...
 
 ---
 
