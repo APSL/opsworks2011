@@ -1,0 +1,28 @@
+https://github.com/APSL/opsworks-wordpress
+
+{
+  "opsworks" : {
+    "deploy_user" : {
+      "user" : "www-data"
+    }
+  },
+
+  "apache" : {
+    "timeout" : 40,
+    "keepalive" : "On",
+    "keepaliverequests" : 200,
+    "keepalivetimeout" : 2,
+    "prefork" : {
+      "startservers" : 3,
+      "minspareservers" : 3,
+      "maxspareservers" : 10,
+      "serverlimit" : 32,
+      "maxclients" : 32,
+      "maxrequestsperchild" : 2000
+    }
+  }
+}
+
+
+
+http://wordpress.org/latest.zip

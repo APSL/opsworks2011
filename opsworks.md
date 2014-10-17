@@ -1,5 +1,5 @@
 
-# Goldcar Amazon Opsworks
+# Goldcar AWS Opsworks
 
 
 Creantbits, Octubre 2014
