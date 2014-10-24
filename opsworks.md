@@ -424,8 +424,8 @@ templates/default/wp-config.php.erb
 
 # Gracias
 
-* http://creantbits.com/opsworks2011
-* https://github.com/APSL/opsworks2011
+* http://creantbits.com/opsworks2014
+* https://github.com/APSL/opsworks2014
 
 
 
